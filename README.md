@@ -3,13 +3,15 @@
 Slow-Blade is an agentic penetration testing and reconnaissance CLI that runs commands inside a Kali-based Docker container.
 This is just a fun, novelty project and personal exercise that I figured I'd share - I recommend checking out [github.com/0xSteph/pentest-ai-agents](https://github.com/0xSteph/pentest-ai-agents) if you need something serious.
 
+With that being said, this has proven to be somewhat effective for busywork like active recon and attack surface mapping. (Tested on Windows 11 / Docker Desktop - RTX 2080 SUPER)
+
 *This is not meant to be used for illegal activity, and should only be used in a sandbox or for controlled CTF excercises.*
 
 *I, as the developer, hold no responsibility for how you use this.*
 
 ## Install
 
-[Install Ollama](https://ollama.com/download), then,
+First, make sure you have [Ollama](https://ollama.com/download) installed.
 
 From the project root:
 
