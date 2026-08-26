@@ -24,6 +24,21 @@ from constants import (
     VERSION
 )
 
+def parse_options(options_json: str | None) -> dict:
+    if not options_json or not str(options_json).strip():
+        return {}
+
+    try:
+        parsed = json.loads(options_json)
+    except json.JSONDecodeError as exc:
+        raise ValueError(f"Invalid JSON for --options: {options_json!r}") from exc
+
+    if not isinstance(parsed, dict):
+        raise ValueError("--options must be a JSON object, for example '{\"temperature\": 0.5}'")
+
+    return parsed
+
+
 # One-Stop-Shop for logging to the CLI with a consistent format
 def cli_log(message: str):
     print(f"[bold green][AGENT][/bold green] {message}")
@@ -44,7 +59,8 @@ class PenTestAgent:
                  prompt="", 
                  show_thinking=False,
                  max_iterations=100, 
-                 docker_container_name_or_id=DEFAULT_CONTAINER
+                 docker_container_name_or_id=DEFAULT_CONTAINER,
+                 options=None,
                 ):
         self.model = model
         self.messages = []
@@ -54,6 +70,7 @@ class PenTestAgent:
         self.show_thinking = show_thinking
         self.max_iterations = max_iterations
         self.docker_container_name = docker_container_name_or_id
+        self.options = options or {}
 
     # Begin the agent's engagement loop
     async def begin(self, prompt=None):
@@ -98,6 +115,7 @@ class PenTestAgent:
                     messages=self.messages,
                     tools=self.tools.get_tools_list(),
                     think="high",
+                    options=self.options,
                 )
 
                 log(INFO, json.dumps(response.message.model_dump_json()))
@@ -227,6 +245,10 @@ class SlowBladeCLI(Command):
         default=DEFAULT_CONTAINER,
         help="The docker container to run commands from; if empty we will run commands from the host system"
     )
+    model_options: str = arg(
+        default="{}",
+        help="Optional JSON model options to pass to Ollama, e.g. '{\"temperature\": 0.5}'"
+    )
 
     # The main execution method required by clypi.Command
     async def run(self) -> None:
@@ -243,9 +265,12 @@ class SlowBladeCLI(Command):
         table.add_column("Parameter", justify="right", style="purple", no_wrap=True)
         table.add_column("Value", style="purple")
 
+        parsed_options = parse_options(self.model_options)
+
         table.add_row("Prompt", self.prompt)
         table.add_row("Model", self.model)
         table.add_row("Exec Container", self.docker_container)
+        table.add_row("Options", json.dumps(parsed_options, separators=(",", ":")))
 
         console = Console()
         console.print(table)
@@ -254,7 +279,12 @@ class SlowBladeCLI(Command):
             print("Exiting...")
             exit(0)
 
-        agent = PenTestAgent(model=self.model, show_thinking=self.show_thinking, docker_container_name_or_id=self.docker_container)
+        agent = PenTestAgent(
+            model=self.model,
+            show_thinking=self.show_thinking,
+            docker_container_name_or_id=self.docker_container,
+            options=parsed_options,
+        )
         await agent.begin(prompt=self.prompt)
 
 def main() -> None:

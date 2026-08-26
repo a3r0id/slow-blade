@@ -36,7 +36,13 @@ You can also override the model and container:
 slowblade --prompt "Do some recon on mysandboxed.website" --model qwen3:8b --docker-container kali
 ```
 
-## Flow
+And of course you can tweak your model with `--options`:
+
+```bash
+slowblade --prompt "Do some recon on mysandboxed.website" --model qwen3:8b --docker-container kali --options '{'temperature': 0.5}'
+```
+
+## Model Flow
 
 ```mermaid
 flowchart TD

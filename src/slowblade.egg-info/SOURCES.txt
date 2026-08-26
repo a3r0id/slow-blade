@@ -11,3 +11,4 @@ src/slowblade.egg-info/dependency_links.txt
 src/slowblade.egg-info/entry_points.txt
 src/slowblade.egg-info/requires.txt
 src/slowblade.egg-info/top_level.txt
+tests/test_options.py
