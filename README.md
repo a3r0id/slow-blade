@@ -32,7 +32,7 @@ You can also override the model and container:
 slowblade --prompt "Do some recon on mysandboxed.website" --model qwen3:8b --docker-container kali
 ```
 
-## Model Flow
+## Flow
 
 ```mermaid
 flowchart TD
