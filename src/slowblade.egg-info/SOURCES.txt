@@ -1,0 +1,13 @@
+README.md
+pyproject.toml
+src/aesthetic.py
+src/bootstrap.py
+src/constants.py
+src/main.py
+src/tools.py
+src/slowblade.egg-info/PKG-INFO
+src/slowblade.egg-info/SOURCES.txt
+src/slowblade.egg-info/dependency_links.txt
+src/slowblade.egg-info/entry_points.txt
+src/slowblade.egg-info/requires.txt
+src/slowblade.egg-info/top_level.txt

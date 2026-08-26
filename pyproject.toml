@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "slowblade"
+version = "0.0.1"
+description = "Slow-Blade agentic security reconnaissance CLI"
+requires-python = ">=3.10"
+dependencies = [
+    "clypi",
+    "rich",
+    "ollama",
+]
+
+[project.scripts]
+slowblade = "main:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+py-modules = ["aesthetic", "bootstrap", "constants", "main", "tools"]

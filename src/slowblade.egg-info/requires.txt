@@ -1,0 +1,3 @@
+clypi
+rich
+ollama

@@ -1,0 +1,2 @@
+[console_scripts]
+slowblade = main:main

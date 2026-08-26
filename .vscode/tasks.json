@@ -1,0 +1,28 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Run SlowBlade CLI (Default Args)",
+            "type": "shell",
+            // Use "python" if running the raw file, or your package binary name (e.g., "slowblade")
+            "command": "python", 
+            "args": [
+                "src/main.py", // The script path
+                "--prompt", "Do some recon on levanada.com", // Default prompt flag and value
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true // Makes this triggerable via Ctrl+Shift+B (Cmd+Shift+B on Mac)
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": true,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            },
+            "problemMatcher": []
+        }
+    ]
+}
