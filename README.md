@@ -29,3 +29,24 @@ You can also override the model and container:
 ```bash
 slowblade --prompt "Do some recon on mysandboxed.website" --model qwen3:8b --docker-container kali
 ```
+
+## Model Flow
+
+```mermaid
+flowchart TD
+    A[User passes prompt via CLI] --> B[SlowBladeCLI parses args]
+    B --> C[PenTestAgent initializes]
+    C --> D[System prompt + user prompt loaded into message history]
+    D --> E[LLM call via Ollama chat]
+    E --> F{Does the model request a tool call?}
+    F -- No --> G[Return final response to user]
+    F -- Yes --> H[execute_tool]
+    H --> I[run_shell_command]
+    I --> J[Docker exec in Kali container]
+    J --> K[Command output captured]
+    K --> L[Tool result appended to model context]
+    L --> E
+    E --> M{Max iterations reached or engagement complete?}
+    M -- Complete --> G
+    M -- Continue --> E
+```
