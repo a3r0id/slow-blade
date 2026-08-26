@@ -9,7 +9,7 @@ This is just a fun, novelty project and personal exercise that I figured I'd sha
 
 ## Install
 
-[Install Ollama](https://ollama.com/download), then,
+First, make sure you have [Ollama](https://ollama.com/download) installed.
 
 From the project root:
 
