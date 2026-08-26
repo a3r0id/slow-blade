@@ -5,9 +5,8 @@ This is just a fun, novelty project and personal exercise that I figured I'd sha
 
 With that being said, this has proven to be somewhat effective for busywork like active recon and attack surface mapping. (Tested on Windows 11 / Docker Desktop - RTX 2080 SUPER)
 
-*This is not meant to be used for illegal activity, and should only be used in a sandbox or for controlled CTF excercises.*
-
-*I, as the developer, hold no responsibility for how you use this.*
+> [!CAUTION]
+> *This is not meant to be used for illegal activity, and should only be used in a sandbox or for controlled CTF excercises. I, as the developer, hold no responsibility for how you use this.*
 
 ## Install
 
