@@ -1,3 +1,0 @@
-clypi
-rich
-ollama

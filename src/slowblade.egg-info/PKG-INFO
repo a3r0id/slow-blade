@@ -1,8 +1,0 @@
-Metadata-Version: 2.4
-Name: slowblade
-Version: 0.0.1
-Summary: Slow-Blade agentic security reconnaissance CLI
-Requires-Python: >=3.10
-Requires-Dist: clypi
-Requires-Dist: rich
-Requires-Dist: ollama
