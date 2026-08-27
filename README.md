@@ -58,14 +58,16 @@ flowchart TD
     C --> D[System prompt + user prompt loaded into message history]
     D --> E[LLM call via Ollama chat]
     E --> F{Does the model request a tool call?}
-    F -- No --> G[Return final response to user]
-    F -- Yes --> H[execute_tool]
-    H --> I[run_shell_command]
-    I --> J[Docker exec in Kali container]
-    J --> K[Command output captured]
-    K --> L[Tool result appended to model context]
-    L --> E
-    E --> M{Max iterations reached or engagement complete?}
-    M -- Complete --> G
-    M -- Continue --> E
+    F -- No --> G{Has the model produced a sufficient answer or should the engagement continue?}
+    G -- Continue --> E
+    G -- Final answer --> H[Return final response to user]
+    F -- Yes --> I[execute_tool]
+    I --> J[run_shell_command]
+    J --> K[Docker exec in Kali container]
+    K --> L[Command output captured]
+    L --> M[Tool result appended to model context]
+    M --> E
+    E --> N{Max iterations reached or engagement complete?}
+    N -- Complete --> H
+    N -- Continue --> E
 ```
