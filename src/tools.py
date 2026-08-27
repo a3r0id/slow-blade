@@ -44,7 +44,8 @@ class Tools:
     # Helper function to return the list of tools for the agent
     def get_tools_list(self):
         return [
-            self.run_shell_command, 
-            # self.get_response_light, 
-            self.ask_user_for_input
+            self.run_shell_command,
+            self.complete_engagement,
+            # self.get_response_light,
+            self.ask_user_for_input,
         ]

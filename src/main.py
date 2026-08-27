@@ -1,6 +1,7 @@
 ## COPYRIGHT (C) 2026 CHAD GROOM
 import asyncio
 import json
+from bootstrap import bootstrap_cli_style
 from ollama import chat, Message
 from logging import basicConfig, log, INFO
 from rich import print
@@ -134,7 +135,9 @@ class PenTestAgent:
             self.messages.append(response.message)
 
             if not response.message.tool_calls:
-                return response.message.content
+                if self.tools.is_complete:
+                    return "Engagement completed."
+                continue
 
             for tool_call in response.message.tool_calls:
 
@@ -144,6 +147,7 @@ class PenTestAgent:
                 cli_log(
                     f"[yellow]Tool:[/yellow] "
                     f"{tool_name}"
+                    f"{arguments}"
                 )
 
                 result = await self.execute_tool(
@@ -180,10 +184,14 @@ class PenTestAgent:
                 await asyncio.sleep(0.1)
 
     def agent_message_log(self, agent_message: Message):
-        if agent_message.thinking and self.show_thinking:
-            print(f"[bold green][🧠][/bold green] {agent_message.thinking}")
-        if agent_message.content:
-            print(f"[bold green][⚡][/bold green] {agent_message.thinking}")
+        thinking = getattr(agent_message, "thinking", None)
+        content = getattr(agent_message, "content", None)
+
+        if self.show_thinking and thinking:
+            print(f"[bold green][🧠][/bold green] {thinking}")
+
+        if content:
+            print(f"[bold green][⚡][/bold green] {content}")
 
     async def execute_tool(self, tool_name, arguments):
 
@@ -241,6 +249,10 @@ class SlowBladeCLI(Command):
         default=False,
         help="Whether or not to show thinking on the CLI output"
     )
+    max_iterations: int = arg(
+        default=100,
+        help="Maximum number of reasoning/tool loops the agent will run before stopping"
+    )
     docker_container: str = arg(
         default=DEFAULT_CONTAINER,
         help="The docker container to run commands from; if empty we will run commands from the host system"
@@ -269,7 +281,7 @@ class SlowBladeCLI(Command):
 
         table.add_row("Prompt", self.prompt)
         table.add_row("Model", self.model)
-        table.add_row("Exec Container", self.docker_container)
+        table.add_row("Container", self.docker_container)
         table.add_row("Options", json.dumps(parsed_options, separators=(",", ":")))
 
         console = Console()
@@ -282,12 +294,14 @@ class SlowBladeCLI(Command):
         agent = PenTestAgent(
             model=self.model,
             show_thinking=self.show_thinking,
+            max_iterations=self.max_iterations,
             docker_container_name_or_id=self.docker_container,
             options=parsed_options,
         )
         await agent.begin(prompt=self.prompt)
 
 def main() -> None:
+    bootstrap_cli_style()
     cli = SlowBladeCLI.parse()
     cli.start()
 

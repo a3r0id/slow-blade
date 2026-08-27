@@ -37,10 +37,16 @@ You can also override the model and container:
 slowblade --prompt "Do some recon on mysandboxed.website" --model qwen3:8b --docker-container kali
 ```
 
-And of course you can tweak your model with `--options`:
+If you want to see the model's reasoning while it works, enable `--show-thinking`:
 
 ```bash
-slowblade --prompt "Do some recon on mysandboxed.website" --model qwen3:8b --docker-container kali --options '{'temperature': 0.5}'
+slowblade --prompt "Do some recon on mysandboxed.website" --show-thinking
+```
+
+You can also tune the model with `--model-options` and cap the tool loop with `--max-iterations`:
+
+```bash
+slowblade --prompt "Do some recon on mysandboxed.website" --model qwen3:8b --docker-container kali --model-options '{"temperature": 0.5}' --max-iterations 20 --show-thinking
 ```
 
 ## Model Flow

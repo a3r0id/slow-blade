@@ -7,7 +7,8 @@
             "program": "${file}",
             "console": "integratedTerminal",
             "args": [
-                "--prompt", "Do some recon on 174.182.237.48"
+                "--prompt", "You are free to hack away at security-crawl-maze.app. Do your best to find vulnerabilities and report them back to me! Good Luck!",
+                "--show-thinking"
             ],
         }
     ]

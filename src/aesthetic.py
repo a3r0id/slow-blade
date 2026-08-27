@@ -2,7 +2,6 @@ from time import sleep
 from rich.live import Live
 from rich.text import Text
 
-
 def play_blade_frames():
 
     frames: list[str] = []
@@ -20,5 +19,11 @@ def play_blade_frames():
         for frame in frames:
             live.update(Text(frame))
             sleep(0.25)
+
+        frames.reverse()
+
+        for frame in frames:
+            live.update(Text(frame))
+            sleep(0.25) 
 
     print()
