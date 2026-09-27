@@ -80,6 +80,7 @@ class PenTestAgent:
             self.prompt = prompt
 
         self.tools.is_complete = False
+        self.tools.last_report_path = None
 
         self.messages = [
             {
@@ -93,6 +94,9 @@ class PenTestAgent:
         ]
 
         await self.get_response()
+
+        if self.tools.last_report_path:
+            cli_log(f"After-action report written to {self.tools.last_report_path}")
 
         cli_log("Engagement completed. Exiting the agent.")
 
